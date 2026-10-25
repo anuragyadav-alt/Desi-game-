@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101126">
+<meta name="description" content="Free tools for YouTube Shorts creators.">
+<title>Creator Dost AI</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101126;color:#f6f5ff;
+font-family:Arial,sans-serif}
+header,main,footer{max-width:850px;margin:auto;padding:20px}
+header{border-bottom:1px solid #30314d}
+.logo{color:#c4b5fd;font-size:23px;font-weight:800}
+.hero{padding-top:28px}
+h1{font-size:clamp(30px,7vw,48px);margin-bottom:8px}
+p{color:#c1c2dc;line-height:1.6}
+.panel{background:#1b1c35;border:1px solid #353653;
+border-radius:16px;padding:18px;margin:18px 0}
+label{display:block;margin:14px 0 8px}
+input,select,textarea{width:100%;padding:13px;
+border-radius:10px;border:1px solid #454665;
+background:#111228;color:white;font-size:16px}
+textarea{min-height:95px;resize:vertical}
+button{padding:13px 16px;border:0;border-radius:10px;
+background:#8b5cf6;color:white;font-size:15px;
+font-weight:bold;cursor:pointer}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.output{white-space:pre-wrap;overflow-wrap:anywhere;
+background:#111228;padding:14px;border-radius:10px;
+line-height:1.6;min-height:70px}
+.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.tool{background:#1b1c35;border:1px solid #353653;
+border-radius:14px;padding:16px}
+footer{text-align:center;color:#9d9fbd}
+@media(max-width:480px){.tools{grid-template-columns:1fr}
+header,main,footer{padding:16px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">✦ Creator Dost AI</div>
+  <p>Your Shorts, Your Creativity.</p>
+</header>
+
+<main>
+<section class="hero">
+  <h1>Create your next <span style="color:#c4b5fd">Short!</span></h1>
+  <p>Free starter tools for video ideas, titles and hashtags.</p>
+</section>
+
+<section class="panel">
+  <h2>Video Prompt Generator</h2>
+  <label for="topic">Your video topic</label>
+  <input id="topic" placeholder="e.g. Anime warrior in a neon city">
+  <label for="style">Video category</label>
+  <select id="style">
+    <option>Anime</option>
+    <option>Gaming</option>
+    <option>Cars</option>
+    <option>Horror</option>
+    <option>Bhakti</option>
+    <option>Comedy</option>
+  </select>
+  <label for="duration">Video duration</label>
+  <select id="duration">
+    <option>15 seconds</option>
+    <option>30 seconds</option>
+    <option>60 seconds</option>
+  </select>
+  <div class="actions">
+    <button onclick="generate()">Generate content</button>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>Your Results</h2>
+  <label>Video prompt</label>
+  <div class="output" id="prompt">Your prompt will appear here.</div>
+  <div class="actions">
+    <button onclick="copyText('prompt')">Copy prompt</button>
+  </div>
+
+  <label>Video title</label>
+  <div class="output" id="title">Your title will appear here.</div>
+  <div class="actions">
+    <button onclick="copyText('title')">Copy title</button>
+  </div>
+
+  <label>Description and hashtags</label>
+  <div class="output" id="description">Your description will appear here.</div>
+  <div class="actions">
+    <button onclick="copyText('description')">Copy description</button>
+  </div>
+</section>
+
+<h2>Explore Creator Tools</h2>
+<section class="tools">
+  <div class="tool"><h3>🎬 Video Prompts</h3>
+    <p>Build your next video idea.</p></div>
+  <div class="tool"><h3># Hashtags</h3>
+    <p>Generate topic-related tags.</p></div>
+  <div class="tool"><h3>📖 Story Ideas</h3>
+    <p>Plan short-form stories.</p></div>
+  <div class="tool"><h3>🎮 Creator Hub</h3>
+    <p>Explore your next niche.</p></div>
+</section>
+</main>
+
+<footer>
+  <p>Creator Dost AI · Free starter edition</p>
+  <p>Review every generated result before publishing.</p>
+</footer>
+
+<script>
+function generate(){
+  const topic=document.getElementById('topic').value.trim();
+  const style=document.getElementById('style').value;
+  const duration=document.getElementById('duration').value;
+  if(!topic){
+    alert('Please enter a video topic first.');
+    return;
+  }
+
+  const prompt =
+`Create a vertical 9:16 ${duration} ${style} video about: ${topic}.
+Use a strong opening hook, clear visual storytelling,
+dynamic camera movement, smooth transitions and
+consistent characters. Keep the visuals engaging.
+Do not add unnecessary text or watermarks.`;
+
+  const title = `${topic} 🔥 | ${style} Shorts`;
+
+  const description =
+`Watch this ${style} short about ${topic}!
+Follow for more creative videos.
+
+#Shorts #${style.replace(/[^a-z0-9]/gi,'')} #${topic
+    .split(/\s+/).filter(Boolean).slice(0,3)
+    .map(w=>w.replace(/[^a-z0-9]/gi,''))
+    .filter(Boolean).join(' #')}`;
+
+  document.getElementById('prompt').textContent=prompt;
+  document.getElementById('title').textContent=title;
+  document.getElementById('description').textContent=description;
+}
+
+async function copyText(id){
+  const value=document.getElementById(id).textContent;
+  try{
+    await navigator.clipboard.writeText(value);
+    alert('Copied!');
+  }catch(e){
+    const area=document.createElement('textarea');
+    area.value=value;
+    document.body.appendChild(area);
+    area.select();
+    const ok=document.execCommand('copy');
+    area.remove();
+    alert(ok?'Copied!':'Please select and copy the text manually.');
+  }
+}
+</script>
+</body>
+</html>
